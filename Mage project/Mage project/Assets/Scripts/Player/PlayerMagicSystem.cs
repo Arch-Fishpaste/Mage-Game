@@ -21,6 +21,7 @@ public class PlayerMagicSystem : MonoBehaviour
     void Awake()
     {
         playerControlls = new PlayerControlls();
+        currentMana = maxMana;
 
     }
 
@@ -41,13 +42,15 @@ public class PlayerMagicSystem : MonoBehaviour
     private void Update()
     {
         bool isSpellcastHeldDown = playerControlls.Controls.Spellcast.ReadValue<float>() > 0f;
+        bool hasEnoughMana = currentMana - spellToCast.SpellToCast.manaCost >= 0f;
 
-        if (!castingmagic && isSpellcastHeldDown)
+        if (!castingmagic && isSpellcastHeldDown && hasEnoughMana)
         {
             castingmagic = true;
+            currentMana -= spellToCast.SpellToCast.manaCost;
             currentCastTimer = 0f;
             Castspell();
-            print("Casting Magic!");
+            
         }
 
         if (castingmagic)
