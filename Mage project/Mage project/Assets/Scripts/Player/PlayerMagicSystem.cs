@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PlayerMagicSystem : MonoBehaviour
 {
+
+    [SerializeField]private Spell spellToCast;
+
     [SerializeField] private float maxMana = 100f;
     [SerializeField] private float currentMana;
     [SerializeField] private float manaRechargeRate = 10f;
@@ -58,6 +61,6 @@ public class PlayerMagicSystem : MonoBehaviour
 
     void Castspell()
     {
-        // Implement spell casting logic here
+        Instantiate(spellToCast, castPoint.position, castPoint.rotation);
     }
 }

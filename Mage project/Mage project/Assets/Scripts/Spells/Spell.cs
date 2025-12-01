@@ -22,6 +22,8 @@ public class Spell : MonoBehaviour
         mycollider.radius = SpellToCast.spellRadius;
         myrigidbody.isKinematic = true;
 
+        Destroy(this.gameObject, SpellToCast.lifetime);
+
     }
 
     private void Update()
@@ -32,6 +34,13 @@ public class Spell : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Enemy"))
+        {
+            HealthComponent enemyHealth = other.GetComponent<HealthComponent>();
+            enemyHealth.TakeDamage(SpellToCast.damageAmount);
+        }
+
+
         Destroy(this.gameObject);
     }
 }
