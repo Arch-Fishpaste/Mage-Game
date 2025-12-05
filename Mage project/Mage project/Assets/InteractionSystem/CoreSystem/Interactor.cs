@@ -1,0 +1,56 @@
+using UnityEngine;
+
+public class Interactor : MonoBehaviour
+{
+    [SerializeField] private float castDistance = 5f;
+    [SerializeField] private Vector3 raycastOffset = new Vector3(0,1f,0);
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (doInteractionTest(out IInteractable interactable))
+            {
+                if (interactable.canInteract())
+                {
+                    interactable.Interact(this);
+                }
+            }
+        }
+        
+
+    }  
+        
+    
+
+
+
+
+
+
+
+
+
+    private bool doInteractionTest(out IInteractable interactable)
+    {
+        interactable = null;
+
+        Ray ray = new Ray(transform.position + raycastOffset, transform.forward);
+
+        if (Physics.Raycast(ray,out RaycastHit hitInfo, castDistance))
+        {
+            interactable = hitInfo.collider.GetComponent<IInteractable>();
+
+            if(interactable != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
+        return false;
+    }
+}
